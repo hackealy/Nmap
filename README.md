@@ -24,7 +24,7 @@ Abra um terminal ou prompt de comando, dependendo do seu sistema operacional.
 
 Digite o seguinte comando:
 
-nmap [opções] alvo
+ # nmap [opções] alvo
 
 Substitua "opções" pelas opções de varredura que você deseja usar (por exemplo, -sS para TCP SYN scan, -sU para UDP scan, etc.), e "alvo" pelo endereço IP ou nome de domínio do host que você deseja varrer.
 
@@ -36,7 +36,7 @@ Identifique o endereço IP ou nome de domínio do host que você deseja varrer. 
 
 Abra um terminal ou prompt de comando e digite o seguinte comando:
 
-nmap -A -T4 192.168.1.100
+ # nmap -A -T4 192.168.1.100
 
 Isso irá executar uma varredura completa no host, usando o perfil de agressividade -A e o nível de velocidade -T4. A opção -A permite que o Nmap execute uma série de testes para descobrir informações sobre o sistema operacional, serviços e versões instalados no host, enquanto a opção -T4 define o nível de velocidade da varredura.
 
@@ -64,23 +64,35 @@ Execute outras ferramentas de verificação de vulnerabilidades: Além do Nmap, 
 
 Os scripts NSE (Nmap Scripting Engine) são uma ferramenta poderosa que podem ser usados com o Nmap para executar testes automatizados e verificar possíveis vulnerabilidades em sistemas. Aqui está um exemplo de como usar scripts NSE no Nmap:
 
+O parâmetro é bem simples de ser utilizado, na verdade é só chamar o script com o parâmetro --script
+
+ # nmap -sS -sC -Pn --script vuln <IP do alvo>  
+ 
+Existe um script muito legal que procura somente os exploits, diferente do script acima que faz vários testes consecutivos. 'Pow, já sei que é vulnerável', então use o script 'exploit'.
+ 
+  # nmap -Pn -sS -sC --script exploit <IP do alvo>
+
 Identifique o serviço que deseja verificar vulnerabilidades. Por exemplo, o serviço HTTP em um endereço IP específico:
-nmap -sV --script=http-vuln-cve2017-5638 <IP do alvo>
+
+  # nmap -sV --script=http-vuln-cve2017-5638 <IP do alvo>
 
 Este comando irá verificar se o servidor HTTP está vulnerável à vulnerabilidade CVE-2017-5638.
 
 Verifique todos os scripts disponíveis com a palavra-chave "http":
-nmap --script-help "http-*"
+
+  # nmap --script-help "http-*"
 
 Este comando irá listar todos os scripts disponíveis que possuem a palavra-chave "http".
 
 Execute um script específico com o parâmetro -sC:
-nmap -sV -sC --script=http-shellshock <IP do alvo>
+
+ # nmap -sV -sC --script=http-shellshock <IP do alvo>
 
 Este comando irá executar o script "http-shellshock" que verifica a vulnerabilidade Shellshock em servidores HTTP.
 
 Execute vários scripts em uma única linha de comando:
-nmap -sV --script=http-enum,http-shellshock,http-vuln-cve2017-5638 <IP do alvo>
+
+ # nmap -sV --script=http-enum,http-shellshock,http-vuln-cve2017-5638 <IP do alvo>
 
 Este comando irá executar três scripts diferentes em uma única linha de comando para verificar vulnerabilidades em servidores HTTP.
 
